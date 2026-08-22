@@ -59,6 +59,15 @@ plantilla `explicaciones/plantilla.md`. Reglas:
 
 ## Comandos
 
+Los comandos `python manage.py ...` son idénticos en todos los sistemas.
+Lo que cambia es la creación y activación del entorno virtual (`.venv`):
+
+- **macOS / Linux:** `python3 -m venv .venv` y `source .venv/bin/activate`
+- **Windows (CMD):** `py -m venv .venv` y `.venv\Scripts\activate.bat`
+- **Windows (PowerShell):** `py -m venv .venv` y `.venv\Scripts\Activate.ps1`
+
+Los comandos de Django van siempre con el venv activado:
+
 ```bash
 python manage.py runserver            # servidor de desarrollo
 python manage.py makemigrations polls # nuevas migraciones

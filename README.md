@@ -39,20 +39,49 @@ No hace falta leerlo todo seguido: agarrá donde venís y seguí.
 
 Para arrancar el proyecto en una máquina nueva (esto es lo primero que hacés):
 
+**macOS / Linux:**
+
 ```bash
-python3 -m venv .venv          # 1. crear el entorno virtual
-source .venv/bin/activate      # 2. activarlo (macOS/Linux)
-pip install django             # 3. instalar Django
-python manage.py migrate       # 4. crear la base con las apps internas de Django
-python manage.py runserver     # 5. levantar el servidor de desarrollo
+python3 -m venv .venv                          # 1. crear el entorno virtual
+source .venv/bin/activate                      # 2. activarlo
+pip install django                             # 3. instalar Django
+python manage.py migrate                       # 4. crear la base con las apps internas de Django
+python manage.py runserver                     # 5. levantar el servidor de desarrollo
 ```
+
+**Windows — CMD:**
+
+```bat
+py -m venv .venv                               # 1. crear el entorno virtual
+.venv\Scripts\activate.bat                     # 2. activarlo
+pip install django                             # 3. instalar Django
+python manage.py migrate                       # 4. crear la base con las apps internas de Django
+python manage.py runserver                     # 5. levantar el servidor de desarrollo
+```
+
+**Windows — PowerShell:**
+
+```powershell
+py -m venv .venv                               # 1. crear el entorno virtual
+.venv\Scripts\Activate.ps1                     # 2. activarlo
+pip install django                             # 3. instalar Django
+python manage.py migrate                       # 4. crear la base con las apps internas de Django
+python manage.py runserver                     # 5. levantar el servidor de desarrollo
+```
+
+> Si en Windows no tenés el comando `py` o `python`, instalá Python desde
+> python.org y marcá la opción "Add Python to PATH" durante la instalación.
+>
+> Si PowerShell no te deja activar el venv, ejecutá una vez:
+> `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`.
 
 Abrí http://127.0.0.1:8000/ para ver el sitio y
 http://127.0.0.1:8000/admin/ para el panel de administración (créale un super
 usuario con `python manage.py createsuperuser`).
 
-> Desde ahora, **siempre activá el venv primero** (`source .venv/bin/activate`)
-> y usá el servidor con `python manage.py runserver`.
+> Desde ahora, **siempre activá el venv primero** antes de cualquier comando:
+> `source .venv/bin/activate` (macOS/Linux) o `.venv\Scripts\activate.bat`
+> (Windows), y usá el servidor con `python manage.py runserver`.
 
 ---
 

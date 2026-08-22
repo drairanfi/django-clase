@@ -25,10 +25,29 @@ responda.
 
 1. **Crear el entorno virtual** (aisla las librerías del sistema) y activarlo:
 
+   **macOS / Linux:**
+
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    ```
+
+   **Windows — CMD:**
+
+   ```bat
+   py -m venv .venv
+   .venv\Scripts\activate.bat
+   ```
+
+   **Windows — PowerShell:**
+
+   ```powershell
+   py -m venv .venv
+   .venv\Scripts\Activate.ps1
+   ```
+
+   > En Windows, si PowerShell bloquea la activación, corré una vez:
+   > `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`.
 
 2. **Instalar Django** dentro del entorno:
 
@@ -115,9 +134,30 @@ de cualquier `python manage.py ...`, si no, usás un Python que no tiene Django.
 
 ## Comandos usados en la clase
 
+**macOS / Linux:**
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+```
+
+**Windows — CMD:**
+
+```bat
+py -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+**Windows — PowerShell:**
+
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+**Comunes (después de activar el venv):**
+
+```bash
 pip install django
 django-admin startproject mysite
 python manage.py startapp polls
