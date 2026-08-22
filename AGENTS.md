@@ -9,6 +9,9 @@ Un proyecto de clase que sigue el **tutorial oficial de Django** (proyecto
 el tutorial y resolviendo actividades de la materia. NO es una app de
 producción ni una base de código preexistente compleja.
 
+El README.md está pensado como guía por partes con pasos copy-paste para
+principiantes; si un paso del tutorial se cambia, actualizar también el README.
+
 ## Reglas de oro
 
 1. **Seguí el tutorial oficial paso a paso.** Cada cambio debe ser el paso
@@ -19,9 +22,9 @@ producción ni una base de código preexistente compleja.
    didáctico y correcto para su etapa, dejalo así. La prioridad es el
    aprendizaje, no la arquitectura de producción.
 3. **Mantené la simplicidad.** Usá solo lo que el tutorial provee: `path()`,
-   `HttpResponse`, templates con la herarquía por defecto, `django.test`.
-   Sin DRF, sin autenticación custom, sin librerías de terceros salvo que la
-   clase lo pida.
+   `HttpResponse`, `render()`, `get_object_or_404()`, templates con la
+   herarquía por defecto, `django.test`. Sin DRF, sin autenticación custom,
+   sin librerías de terceros salvo que la clase lo pida.
 4. **Cada decisión de código se explica en las clases.** Si un cambio se sale
    del tutorial, que sea porque hay una actividad de la materia detrás.
 
@@ -37,6 +40,7 @@ plantilla `explicaciones/plantilla.md`. Reglas:
   pendientes y el siguiente paso. No pegar código entero.
 - Este es un trabajo EN EQUIPO: los resúmenes deben reflejar lo que hicieron
   ambos compañeros, no solo una persona.
+- Actualizar la tabla de resúmenes en el README cuando se agrega una entrada.
 
 ## Manejo de ramas
 
@@ -67,18 +71,28 @@ python manage.py test                 # correr tests
   (`Question`, `Choice`).
 - No subir secretos. La `SECRET_KEY` de desarrollo ya viene generada; no la
   reemplazar por una real en debug.
+- El shell de Django no recarga el código: reiniciarlo tras editar modelos
+  (`importlib.reload` es un atajo, pero lo didáctico es salir y reentrar).
+- Al validar una vista, correr la sección de tests de la parte correspondiente
+  o probar con el cliente de tests; revisar las URLs con la app corriendo.
 
 ## Estado actual (checkpoint)
 
-- Parte 1 completa: `mysite` + `polls` creados, URL `/polls/` responde.
-- `polls` aún NO está en `INSTALLED_APPS`.
-- `polls/models.py` está vacío (próximo paso: modelos `Question`/`Choice`).
+- **Partes 1-3 completas.**
+- Parte 1: `mysite` + `polls`, URL `/polls/` responde.
+- Parte 2: `polls` en `INSTALLED_APPS`, modelos `Question`/`Choice`,
+  migración `0001_initial` aplicada, `Question` en el admin.
+- Parte 3: vistas `index`/`detail`/`results`/`vote`, templates
+  `polls/index.html` y `polls/detail.html`, `app_name = "polls"`.
+- `polls/tests.py` está vacío (la parte 5 agrega los tests).
+- Próximo paso: parte 4 (formulario de votación + views genéricas).
 
 ## Estructura
 
 ```
 mysite/        Proyecto Django (settings, urls raíz, wsgi/asgi)
 polls/         App del tutorial (encuestas)
+polls/templates/polls/  Templates de la app (index.html, detail.html)
 explicaciones/ Resúmenes de cada clase (clase-NN.md + plantilla.md)
 ```
 

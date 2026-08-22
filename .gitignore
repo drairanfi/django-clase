@@ -22,3 +22,6 @@ media/
 .idea/
 .vscode/
 .DS_Store
+
+# Local tooling
+.atl/
