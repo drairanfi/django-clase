@@ -4,51 +4,132 @@
 - **Autor(es):** ambos (primer día)
 - **Parte del tutorial / actividad:** Tutorial parte 1 + documentación del repo
 
-## Qué se hizo
+## Qué se hizo en la clase
 
-- Se creó el proyecto `mysite` con `django-admin startproject` y la app `polls`
-  con `startapp`.
-- Se configuró la URL `/polls/` que responde con la vista `index`.
-- Se documentó el repo: `README.md` (guía para humanos) y `AGENTS.md` (guía
-  para agentes de IA que trabajen el repo).
-- Se agregó `.gitignore` y se dejó de trackear `db.sqlite3` y `__pycache__/`.
-- Se creó la carpeta `explicaciones/` con su plantilla para registrar cada
-  clase.
+- Se creó el proyecto `mysite` con `django-admin startproject`.
+- Se creó la app `polls` con `startapp` y una primera vista `index`.
+- Se conectó la app al proyecto por URL (`/polls/`).
+- Se documentó y acondicionó el repo: `README.md`, `AGENTS.md`, `.gitignore`.
 
-## Conceptos clave
+---
 
-- **Proyecto vs app:** el proyecto es el sitio completo (`mysite`), la app es
-  una parte funcional (encuestas = `polls`).
-- **urls.py:** cómo Django enruta una petición a una vista (primero la raíz,
-  después la app con `include()`).
-- **views.py:** dónde vive la lógica de una vista; por ahora devuelve un
-  `HttpResponse` básico.
-- **VENV:** entorno virtual para aislar dependencias del sistema.
+## Parte 1 — Crear el proyecto y la primera app
 
-## Comandos usados
+### Idea de la parte
+
+Que el sitio de Django exista y responda algo cuando entramos a una URL. Acá
+se arma la caja (proyecto), se agrega una cajita adentro (app) y se hace que
+responda.
+
+### Paso a paso (qué hicimos)
+
+1. **Crear el entorno virtual** (aisla las librerías del sistema) y activarlo:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+2. **Instalar Django** dentro del entorno:
+
+   ```bash
+   pip install django
+   ```
+
+3. **Crear el proyecto** (la caja completa del sitio):
+
+   ```bash
+   django-admin startproject mysite
+   ```
+
+4. **Crear la app** (la parte funcional "encuestas"):
+
+   ```bash
+   python manage.py startapp polls
+   ```
+
+5. **Escribir la primera vista.** En `polls/views.py` (reemplazando todo):
+
+   ```python
+   from django.http import HttpResponse
+
+   def index(request):
+       return HttpResponse("Hello, world. You're at the polls index.")
+   ```
+
+6. **Crear las URLs de la app.** Creá `polls/urls.py`:
+
+   ```python
+   from django.urls import path
+
+   from . import views
+
+   urlpatterns = [
+       path("", views.index, name="index"),
+   ]
+   ```
+
+7. **Conectar las URLs de la app al proyecto.** En `mysite/urls.py`:
+
+   ```python
+   from django.contrib import admin
+   from django.urls import include, path
+
+   urlpatterns = [
+       path("polls/", include("polls.urls")),
+       path("admin/", admin.site.urls),
+   ]
+   ```
+
+8. **Levantar el servidor** y probar:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+   Abrí http://127.0.0.1:8000/polls/ → deberías ver
+   *"Hello, world. You're at the polls index."*
+
+### Conceptos clave (en simple)
+
+- **Proyecto vs app**: el proyecto es el sitio completo (`mysite`, se crea una
+  sola vez); la app es una parte funcional del sitio (`polls`). Un proyecto
+  puede tener muchas apps.
+- **Vista**: la función que recibe el pedido del navegador (`request`) y
+  devuelve una respuesta (`response`). Acá, un texto.
+- **URL → vista**: el archivo `urls.py` conecta una dirección web con una
+  vista. El proyecto delega en la app con `include()`.
+- **VENV**: carpeta invisible que guarda las librerías del proyecto para no
+  ensuciar el sistema. Hay que activarla antes de usar `python`.
+
+### Error típico / lección
+
+Ninguno en la parte 1. Sí una regla de oro: **siempre activar el venv** antes
+de cualquier `python manage.py ...`, si no, usás un Python que no tiene Django.
+
+### Qué quedó funcionando
+
+- http://127.0.0.1:8000/polls/ responde el texto de `index`.
+
+---
+
+## Comandos usados en la clase
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
+source .venv/bin/activate
 pip install django
 django-admin startproject mysite
 python manage.py startapp polls
 python manage.py runserver
 ```
 
-## Código resultante
-
-- `mysite/urls.py` incluye `polls.urls` bajo la ruta `polls/`.
-- `polls/urls.py` enruta `/polls/` hacia `views.index`.
-- `polls/views.py` tiene una vista `index` mínima (`HttpResponse`).
-- `polls/models.py` aún está vacío: los modelos se ven en la parte 2.
-
 ## Dudas / pendientes
 
-- ¿Por qué `polls` todavía no está en `INSTALLED_APPS`? → Se agrega cuando
-  aparezcan los modelos (parte 2).
-- Confirmar cómo trabajamos las ramas entre los dos (ver AGENTS.md).
+- Adopción de las ramas entre los dos (ver AGENTS.md): crear rama propia antes
+  de tocar código compartido.
 
 ## Siguiente paso
 
-- Parte 2 del tutorial: modelos `Question` y `Choice`, agregar `polls` a
-  `INSTALLED_APPS`, primeras migraciones y el panel de admin.
+- Parte 2: modelos `Question` y `Choice`, agregar `polls` a `INSTALLED_APPS`,
+  primeras migraciones y el panel de admin.

@@ -4,27 +4,50 @@
 - **Autor(es):** <nombre>
 - **Parte del tutorial / actividad:** <p. ej. Tutorial parte 1 | Actividad X>
 
-## Qué se hizo
+## Qué se hizo en la clase
 
-<Resumen en 3-5 líneas de qué se trabajó en la clase: pasos del tutorial
-resueltos, actividades entregadas, decisiones tomadas.>
+<Resumen en 3-5 líneas de qué se trabajó: pasos del tutorial resueltos,
+actividades entregadas, decisiones tomadas.>
 
-## Conceptos clave
+---
 
-- <Concepto 1 sin explicar qué es>
-- <Concepto 2>
-- <Concepto 3>
+## <Parte 1 — Título de la parte>
 
-## Comandos usados
+### Idea de la parte
+
+<Qué objetivo cumplía esta parte, en una o dos frases, como si no supiéramos
+nada de Django.>
+
+### Paso a paso (qué hicimos)
+
+<Pasos numerados. Cada paso que genere código lleva el código completo listo
+para copiar y pegar, con una leyenda de dónde va (archivo).>
+
+### Conceptos clave (en simple)
+
+- <Concepto explicado como para alguien que recién arranca>
+
+### Error típico / lección
+
+<Algo que nos costó y la solución, si hubo.>
+
+### Qué quedó funcionando
+
+<La URL o resultado visible que prueba que la parte está completa.>
+
+---
+
+## <Parte 2 — Título>
+
+(si corresponde; misma estructura que arriba)
+
+---
+
+## Comandos usados en la clase
 
 ```bash
 <comando>
 ```
-
-## Código resultante
-
-<Breve descripción de qué archivos se tocaron y qué hace lo nuevo.
-Nada de pegar código entero; solo lo relevante.>
 
 ## Dudas / pendientes
 

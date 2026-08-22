@@ -330,6 +330,7 @@ Seguimos por acá en la próxima clase.
 Cada clase se registra en `explicaciones/clase-NN.md` (ver `plantilla.md`):
 
 - [Clase 01](explicaciones/clase-01.md) — setup del repo + parte 1
+- [Clase 02](explicaciones/clase-02.md) — tutorial partes 2 y 3
 
 ## Estructura del repo
 

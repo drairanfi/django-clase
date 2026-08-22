@@ -37,7 +37,11 @@ plantilla `explicaciones/plantilla.md`. Reglas:
   caracteres especiales.
 - Se escribe en español, al final de la clase o antes de la siguiente.
 - Registra fecha, autor(es), qué se hizo, conceptos clave, comandos,
-  pendientes y el siguiente paso. No pegar código entero.
+  pendientes y el siguiente paso.
+- Los resúmenes siguen el MISMO formato que el README: organizados por parte
+  del tutorial (parte 1, 2, ...), explicados como para principiantes y con el
+  código completo listo para copiar y pegar (es material de estudio de la
+  clase, no solo un acta).
 - Este es un trabajo EN EQUIPO: los resúmenes deben reflejar lo que hicieron
   ambos compañeros, no solo una persona.
 - Actualizar la tabla de resúmenes en el README cuando se agrega una entrada.
