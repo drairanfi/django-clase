@@ -25,6 +25,30 @@ producción ni una base de código preexistente compleja.
 4. **Cada decisión de código se explica en las clases.** Si un cambio se sale
    del tutorial, que sea porque hay una actividad de la materia detrás.
 
+## Resúmenes de clase (`explicaciones/`)
+
+Cada clase genera un resumen en `explicaciones/clase-NN.md` usando la
+plantilla `explicaciones/plantilla.md`. Reglas:
+
+- Nombre del archivo: `clase-01.md`, `clase-02.md`, etc. Sin acentos ni
+  caracteres especiales.
+- Se escribe en español, al final de la clase o antes de la siguiente.
+- Registra fecha, autor(es), qué se hizo, conceptos clave, comandos,
+  pendientes y el siguiente paso. No pegar código entero.
+- Este es un trabajo EN EQUIPO: los resúmenes deben reflejar lo que hicieron
+  ambos compañeros, no solo una persona.
+
+## Manejo de ramas
+
+- Somos dos personas trabajando el repo en ramas separadas.
+- Cada uno trabaja su rama; `main` es la rama compartida con lo aprobado.
+- Antes de crear una rama, traer los últimos cambios: `git pull origin main`.
+- Un cambio se integra a `main` cuando está terminado y, preferentemente,
+  revisado por el otro compañero (pull request).
+- Evitar mergear a `main` desde la consola con `git merge` directo si se puede
+  abrir un PR.
+- `explicaciones/` se trabaja también por PR; no pisar resúmenes del otro.
+
 ## Comandos
 
 ```bash
@@ -53,8 +77,9 @@ python manage.py test                 # correr tests
 ## Estructura
 
 ```
-mysite/   Proyecto Django (settings, urls raíz, wsgi/asgi)
-polls/    App del tutorial (encuestas)
+mysite/        Proyecto Django (settings, urls raíz, wsgi/asgi)
+polls/         App del tutorial (encuestas)
+explicaciones/ Resúmenes de cada clase (clase-NN.md + plantilla.md)
 ```
 
 ## Referencias

@@ -14,10 +14,15 @@ creado con `django-admin startproject` y la app `polls` recién inicializada).
 ## Estructura
 
 ```
-mysite/      Proyecto Django (settings, urls raíz, wsgi/asgi)
-polls/       App del tutorial (encuestas)
-manage.py    Script de gestión de Django
+mysite/        Proyecto Django (settings, urls raíz, wsgi/asgi)
+polls/         App del tutorial (encuestas)
+explicaciones/ Resúmenes de cada clase (clase-NN.md + plantilla.md)
+manage.py      Script de gestión de Django
 ```
+
+Cada clase deja un resumen en `explicaciones/clase-NN.md`. No hay que
+«inventar» historia: cada resumen respeta la plantilla y registra solo lo que
+se hizo en esa clase.
 
 ## Puesta en marcha
 
@@ -40,6 +45,11 @@ python manage.py migrate              # aplica migraciones
 python manage.py makemigrations polls # genera migraciones nuevas
 python manage.py test                 # corre los tests
 ```
+
+## Resúmenes de clase
+
+Cada clase se documenta en `explicaciones/clase-NN.md` (ver `plantilla.md`).
+- Clase 1: setup del repo + parte 1 del tutorial
 
 ## Progreso del tutorial
 
