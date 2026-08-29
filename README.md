@@ -360,6 +360,7 @@ Cada clase se registra en `explicaciones/clase-NN.md` (ver `plantilla.md`):
 
 - [Clase 01](explicaciones/clase-01.md) — setup del repo + parte 1
 - [Clase 02](explicaciones/clase-02.md) — tutorial partes 2 y 3
+- [Clase 03](explicaciones/clase-03.md) — parte 2 desde el shell: Choices y `choice_set`
 
 ## Estructura del repo
 
