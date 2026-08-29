@@ -23,3 +23,7 @@ def results(request, question_id):
 
 def vote(request, question_id):
     return HttpResponse("You're voting on question %s." % question_id)
+
+def preguntas(request):
+    pregunta = Question.objects.get(pk=5)
+    return HttpResponse(pregunta.question_text)
