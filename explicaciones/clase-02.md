@@ -70,6 +70,7 @@ y opciones en una base de datos** y poder verlas/crearlas desde un panel web.
    ```bash
    python manage.py shell
    ```
+  4.1 **Importante** : Ejecutar import de los modelos que se quiere buscar ya que se puede perder la referencia
 
    ```python
    >>> from polls.models import Question, Choice
