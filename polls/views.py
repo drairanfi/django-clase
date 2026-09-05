@@ -21,6 +21,9 @@ def results(request, question_id):
 def vote(request, question_id):
     return HttpResponse("Estas votando en la pregunta con id: %s." % question_id)
 
+def gatito(request, question_id):
+    return HttpResponse("Gatito %s." % question_id) 
+
 def preguntas(request):
     question = Question.objects.get(id=2)
     return HttpResponse(question.question_text)
