@@ -352,7 +352,29 @@ Seguimos por acá en la próxima clase.
 
 ## Actividades de la clase
 
-(Pendiente: cada actividad se documenta acá a medida que se entrega.)
+### Vista `preguntas` (devolver la pregunta con pk=5)
+
+Actividad de la clase 3: una vista propia que **consulta la base** y devuelve
+el texto de la pregunta con `pk=5` (en vez de texto fijo).
+
+En `polls/views.py` (al final del archivo):
+
+```python
+def preguntas(request):
+    pregunta = Question.objects.get(pk=5)   # busca en la base el id 5
+    return HttpResponse(pregunta.question_text)  # devuelve su texto
+```
+
+En `polls/urls.py`, dentro de `urlpatterns`:
+
+```python
+path("preguntas/", views.preguntas, name="preguntas"),
+```
+
+Probar: http://127.0.0.1:8000/polls/preguntas/ → "que desayunaste?"
+
+> ⚠️ `get(pk=5)` devuelve un solo objeto y **revienta** con `DoesNotExist` si
+> el id no existe. En una base vacía (clon nuevo) no hay pk=5 y va a dar error.
 
 ## Resúmenes de clase
 

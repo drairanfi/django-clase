@@ -11,6 +11,7 @@
 - Aprendimos a crear `Choice` desde la consola y a recorrer la relación entre
   `Question` y `Choice` con la API de Django.
 - Registramos `Choice` en el admin (quedaba pendiente de la clase 2).
+- Actividad propia: vista `preguntas` que devuelve la pregunta con `pk=5`.
 
 ---
 
@@ -174,6 +175,39 @@ recarga solo** — `exit()` y volvé a entrar.)
 - `Choice` visible y editable en http://127.0.0.1:8000/admin/.
 - Quedó **resuelto el pendiente de la clase 2** (cargar datos de `Choice` para
   ver `choice_set.all` y el admin).
+
+---
+
+## Actividad de la clase — vista `preguntas` (pk=5)
+
+Consigna: una vista que **devuelva la pregunta con `pk=5`** (no texto fijo).
+Sirve para ver cómo una vista pasa de devolver un `HttpResponse` con texto
+hardcodeado a consultar la base.
+
+En `polls/views.py` (al final):
+
+```python
+def preguntas(request):
+    pregunta = Question.objects.get(pk=5)   # busca en la base el id 5
+    return HttpResponse(pregunta.question_text)  # devuelve su texto
+```
+
+En `polls/urls.py`, dentro de `urlpatterns`:
+
+```python
+path("preguntas/", views.preguntas, name="preguntas"),
+```
+
+Probar en http://127.0.0.1:8000/polls/preguntas/ → "que desayunaste?"
+
+### Concepto clave
+
+- **La vista consulta la base**: `Question.objects.get(pk=5)` pide un solo
+  registro y `pregunta.question_text` usa su campo. Sin esa consulta, la vista
+  solo puede devolver texto fijo.
+- **`get` es estricto**: si el id 5 no existe (base vacía o clon nuevo), lanza
+  `DoesNotExist`. Para una vista "a prueba de todo" usaríamos `filter` o
+  `get_object_or_404` (lo vemos en el tutorial).
 
 ---
 
