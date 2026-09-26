@@ -330,13 +330,174 @@ detalle, usando plantillas HTML.
 
 ---
 
-### ⏭️ Parte 4 — Formularios y views genéricas (próximo paso)
+### ✅ Parte 4 — Formularios y views genéricas
 
-Después de la parte 3 el tutorial agrega el formulario de votación en el
-template de detalle, una vista que registre el voto, y después remplaza las
-vistas por **views genéricas** (menos código repetido).
+**Objetivo:** que el usuario pueda **votar** por una opción, ver el resultado,
+y después reemplazar las vistas escritas "a mano" por **views genéricas** (menos
+código).
 
-Seguimos por acá en la próxima clase.
+1. **El formulario de votación.** En `polls/templates/polls/detail.html`:
+
+   ```html
+   <form action="{% url 'polls:vote' question.id %}" method="post">
+   {% csrf_token %}
+   <fieldset>
+       <legend><h1>{{ question.question_text }}</h1></legend>
+       {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+       {% for choice in question.choice_set.all %}
+           <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+           <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+       {% endfor %}
+   </fieldset>
+   <input type="submit" value="Vote">
+   </form>
+   ```
+
+   Cada radio manda `choice=<id>` por **POST**. Usamos `method="post"` porque
+   votar modifica datos, y `{% csrf_token %}` protege contra falsificación de
+   pedidos (Cross Site Request Forgery).
+
+2. **La vista `vote` de verdad.** En `polls/views.py`:
+
+   ```python
+   from django.db.models import F
+   from django.http import HttpResponse, HttpResponseRedirect
+   from django.shortcuts import get_object_or_404, render
+   from django.urls import reverse
+
+   from .models import Choice, Question
+
+
+   def vote(request, question_id):
+       question = get_object_or_404(Question, pk=question_id)
+       try:
+           selected_choice = question.choice_set.get(pk=request.POST["choice"])
+       except (KeyError, Choice.DoesNotExist):
+           # Redisplay the question voting form.
+           return render(
+               request,
+               "polls/detail.html",
+               {
+                   "question": question,
+                   "error_message": "You didn't select a choice.",
+               },
+           )
+       else:
+           selected_choice.votes = F("votes") + 1
+           selected_choice.save()
+           # Always return an HttpResponseRedirect after successfully dealing
+           # with POST data.
+           return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+   ```
+
+   - `request.POST["choice"]` es el id elegido (siempre viene como texto).
+   - `KeyError`/`Choice.DoesNotExist` → vuelve a mostrar el formulario con un
+     mensaje de error.
+   - `F("votes") + 1` suma 1 **en la base de datos** (sin traer el valor a
+     Python).
+   - `reverse("polls:results", args=(question.id,))` arma la URL a mano alzada
+     (ej: `/polls/5/results/`) para el `HttpResponseRedirect`.
+
+3. **El template de resultados.** Creá `polls/templates/polls/results.html`:
+
+   ```html
+   <h1>{{ question.question_text }}</h1>
+
+   <ul>
+   {% for choice in question.choice_set.all %}
+       <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+   {% endfor %}
+   </ul>
+
+   <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+   ```
+
+   `|pluralize` agrega la "s" de *votes* cuando hay más de uno.
+
+4. **Views genéricas (menos código).** Las vistas `index`, `detail` y `results`
+   hacían lo mismo una y otra vez: buscar datos según el parámetro de la URL,
+   cargar un template y renderizarlo. Django trae **`ListView`** y **`DetailView`**
+   para eso. En `polls/views.py`:
+
+   ```python
+   from django.db.models import F
+   from django.http import HttpResponse, HttpResponseRedirect
+   from django.shortcuts import get_object_or_404, render
+   from django.urls import reverse
+   from django.views import generic
+
+   from .models import Choice, Question
+
+
+   class IndexView(generic.ListView):
+       template_name = "polls/index.html"
+       context_object_name = "latest_question_list"
+
+       def get_queryset(self):
+           """Return the last five published questions."""
+           return Question.objects.order_by("-pub_date")[:5]
+
+
+   class DetailView(generic.DetailView):
+       model = Question
+       template_name = "polls/detail.html"
+
+
+   class ResultsView(generic.DetailView):
+       model = Question
+       template_name = "polls/results.html"
+
+
+   def vote(request, question_id):
+       question = get_object_or_404(Question, pk=question_id)
+       try:
+           selected_choice = question.choice_set.get(pk=request.POST["choice"])
+       except (KeyError, Choice.DoesNotExist):
+           return render(
+               request,
+               "polls/detail.html",
+               {
+                   "question": question,
+                   "error_message": "You didn't select a choice.",
+               },
+           )
+       else:
+           selected_choice.votes = F("votes") + 1
+           selected_choice.save()
+           return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+   ```
+
+5. **Actualizar las URLs.** En `polls/urls.py`, los patrones de detalle y
+   resultados cambian de `<int:question_id>` a `<int:pk>` (es lo que espera
+   `DetailView`):
+
+   ```python
+   from django.urls import path
+
+   from . import views
+
+   app_name = "polls"
+   urlpatterns = [
+       path("", views.IndexView.as_view(), name="index"),
+       path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+       path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
+       path("<int:question_id>/vote/", views.vote, name="vote"),
+       path("preguntas/", views.preguntas, name="preguntas"),
+   ]
+   ```
+
+6. Probar: abrí http://127.0.0.1:8000/polls/5/, votá una opción → te manda a
+   los resultados. Si enviás el formulario sin elegir nada, aparece el mensaje
+   de error.
+
+**Conceptos de la parte:**
+- **POST** modifica datos (votar); **GET** solo lee (ver la página).
+- **`F()`**: operaciones que se resuelven del lado de la base, sin condiciones
+  de carrera.
+- **`HttpResponseRedirect`**: después de un POST exitoso siempre se redirige,
+  para que apretar "atrás" no vuelva a votar.
+- **Views genéricas**: `ListView` lista objetos, `DetailView` muestra uno; se
+  configuran con `model`, `template_name` y `context_object_name`.
 
 ---
 
@@ -345,7 +506,7 @@ Seguimos por acá en la próxima clase.
 - [x] **Parte 1**: crear proyecto y app, primera vista
 - [x] **Parte 2**: modelos `Question`/`Choice`, migraciones, admin
 - [x] **Parte 3**: vistas y templates
-- [ ] **Parte 4**: formularios y views genéricas
+- [x] **Parte 4**: formularios y views genéricas
 - [ ] **Parte 5**: tests
 - [ ] **Parte 6**: archivos estáticos (CSS)
 - [ ] **Parte 7**: personalizar el admin
@@ -383,6 +544,7 @@ Cada clase se registra en `explicaciones/clase-NN.md` (ver `plantilla.md`):
 - [Clase 01](explicaciones/clase-01.md) — setup del repo + parte 1
 - [Clase 02](explicaciones/clase-02.md) — tutorial partes 2 y 3
 - [Clase 03](explicaciones/clase-03.md) — parte 2 desde el shell: Choices y `choice_set`
+- [Clase 04](explicaciones/clase-04.md) — parte 4: formulario de votación y views genéricas
 
 ## Estructura del repo
 

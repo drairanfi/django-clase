@@ -91,14 +91,17 @@ python manage.py test                 # correr tests
 
 ## Estado actual (checkpoint)
 
-- **Partes 1-3 completas.**
+- **Partes 1-4 completas.**
 - Parte 1: `mysite` + `polls`, URL `/polls/` responde.
 - Parte 2: `polls` en `INSTALLED_APPS`, modelos `Question`/`Choice`,
   migración `0001_initial` aplicada, `Question` en el admin.
 - Parte 3: vistas `index`/`detail`/`results`/`vote`, templates
   `polls/index.html` y `polls/detail.html`, `app_name = "polls"`.
+- Parte 4: formulario de votación en `detail.html`, `vote()` real con `F()`,
+  `results.html`, vistas convertidas a genéricas (`IndexView`, `DetailView`,
+  `ResultsView`) con `<int:pk>` en las URLs.
 - `polls/tests.py` está vacío (la parte 5 agrega los tests).
-- Próximo paso: parte 4 (formulario de votación + views genéricas).
+- Próximo paso: parte 5 (tests).
 
 ## Estructura
 
